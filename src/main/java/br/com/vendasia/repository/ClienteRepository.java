@@ -57,7 +57,7 @@ public class ClienteRepository {
     }
 
 
-    
+
     //-------------------
     // Inserir Cliente
     //-------------------
@@ -80,6 +80,36 @@ public class ClienteRepository {
         throw new SQLException("ID não retornado após inserção.");
     }
 
+
+    //---------------------------------------------
+    // Buscar Clientes com Pedidos (JOIN)
+    //---------------------------------------------
+    public List<String> buscarClientesComPedidos() throws SQLException {
+        List<String> resultado = new ArrayList<>();
+
+        String sql = """
+                SELECT c.nome, COUNT(p.id) AS total_pedidos,
+                       SUM(p.valor_total) AS valor_total
+                FROM clientes c
+                INNER JOIN pedidos p ON p.cliente_id = c.id
+                WHERE p.status != 'Cancelado'
+                GROUP BY c.id, c.nome
+                ORDER BY valor_total DESC
+                """;
+        try(Connection conn = ConexaoMySQL.obter();
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            ResultSet rs = stmt.executeQuery()){
+            
+            while (rs.next()) {
+                String linha = String.format("%-30s | Pedidos: %d | Total: R$ %.2f",
+                        rs.getString("nome"),
+                        rs.getInt("total_pedidos"),
+                        rs.getBigDecimal("valor_total"));
+                resultado.add(linha);
+            }
+        }
+        return resultado;
+    }
 
 
 

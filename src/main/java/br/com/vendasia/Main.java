@@ -13,7 +13,8 @@ public class Main {
             System.out.println("======CLIENTES CADASTRADOS======");
             clienteRepo.buscarTodos().forEach(c -> System.out.println(c.id() + " | " + c.nome() + " | " + c.email() + " | " + c.cpf() + " | " + c.dataCadastro() + " | " + c.tipoCliente()));
 
-            System.out.println("====");
+            System.out.println("======CLIENTES COM PEDIDO=======");
+            clienteRepo.buscarClientesComPedidos().forEach(System.out::println);
  
         }catch(SQLException e){
             System.out.println("Erro no banco: " + e.getMessage());
