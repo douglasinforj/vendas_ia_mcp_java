@@ -1,5 +1,5 @@
-package main.java.br.com.vendasia.infra;
+package br.com.vendasia.infra;
 
 public class ConexaoMySQL {
-
+    
 }
