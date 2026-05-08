@@ -79,6 +79,29 @@ public class ProdutoRepository {
         return resultado;
     }
 
+    //--- Estoque Crítico: Produtos abaixo do mínimo-------------
+    public List<Produto> buscarEstoqueCritico(int estoqueMinimo) throws SQLException {
+        List<Produto> produtos = new ArrayList<>();
+        String sql = """
+                SELECT id, nome, sku, preco_custo, preco_venda, estoque_atual, categoria
+                FROM produtos
+                WHERE estoque_atual <= ?
+                ORDER BY estoque_atual ASC
+                """;
+
+        try (Connection conn = ConexaoMySQL.obter();
+        PreparedStatement stmt = conn.prepareStatement(sql)){
+
+            stmt.setInt(1, estoqueMinimo);
+            try(ResultSet rs = stmt.executeQuery()){
+                while (rs.next()) {
+                    produtos.add(mapearProduto(rs));
+                }
+            }
+        return produtos;
+        }
+    }
+
 
 
 
