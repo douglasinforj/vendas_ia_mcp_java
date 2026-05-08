@@ -1,6 +1,7 @@
 package br.com.vendasia.repository;
 
 import br.com.vendasia.infra.ConexaoMySQL;
+//import br.com.vendasia.infra.ConexaoMySQL;              //Fase 2: Deixa de criar a conexão
 import br.com.vendasia.model.Cliente;
 
 import java.sql.*;
@@ -10,6 +11,15 @@ import java.util.Optional;
 
 public class ClienteRepository {
 
+    //Recebe Connection - não abre mais conexão própria
+    //Permite que o Service compartilhe a mesma transação
+
+    private final Connection conn;
+
+    public ClienteRepository(Connection conn) {
+        this.conn = conn;
+    }
+
     //------------------------
     //Buscar todos os clientes
     //------------------------
@@ -18,17 +28,15 @@ public class ClienteRepository {
 
         String sql = "SELECT id, nome, email, cpf, data_cadastro, tipo_cliente FROM clientes";
 
-        // try-with-resources: fecha Connection e Statement automaticamente
-        // mesmo se lançar exceção. Equivale a finally { conn.close(); }
-        try (Connection conn = ConexaoMySQL.obter();
+
+        try (//Connection conn = ConexaoMySQL.obter();                        //Fase 2: deixa de abrir conexão própria
              PreparedStatement stmt = conn.prepareStatement(sql);
              ResultSet rs = stmt.executeQuery()) {   //cursor
 
-            // ResultSet é um cursor — começa ANTES da primeira linha
-            // rs.next() avança o cursor e retorna false quando acaba
             while (rs.next()) {
-                Cliente c = mapearCliente(rs);
-                clientes.add(c);
+                //Cliente c = mapearCliente(rs);                             //Fase 2: deixa de abrir conexão própria         
+                //clientes.add(c);                                           //Fase 2: deixa de abrir conexão própria
+                clientes.add(mapear(rs));
             }
         }
         return clientes;
@@ -40,16 +48,16 @@ public class ClienteRepository {
     public Optional<Cliente> buscarPorId(int id) throws SQLException {
         String sql = "select id, nome, email, cpf, data_cadastro, tipo_cliente from clientes where id = ?";
 
-        // O "?" é o parâmetro. PreparedStatement evita SQL Injection.
-        // Nunca faça: "WHERE id = " + id  ← vulnerável!
-        try (Connection conn = ConexaoMySQL.obter();
+
+        try (//Connection conn = ConexaoMySQL.obter();                      //Fase 2: deixa de abrir conexão própria
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setInt(1, id); // 1 = posição do primeiro "?"
             
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
-                    return Optional.of(mapearCliente(rs));  // 'of' cria uma objeto com valor obrigatorio
+                    //return Optional.of(mapearCliente(rs));                 //Fase 2: deixa de abrir conexão própria
+                    return Optional.of(mapear(rs));
                 }
             }
         }
@@ -64,18 +72,30 @@ public class ClienteRepository {
     public Cliente inserir(Cliente cliente) throws SQLException {
         String sql = "insert into clientes (nome, email, cpf, tipo_cliente) value (?,?,?,?)";
 
-        //RETURN_GENERATED_KEYS: recupera o id gerado pelo AUTO_INCREMENT
-        try(Connection conn = ConexaoMySQL.obter();
+        try(//Connection conn = ConexaoMySQL.obter();                                                //Fase 2: deixa de abrir conexão própria
             PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
                 stmt.setString(1, cliente.nome());
                 stmt.setString(2, cliente.email());
                 stmt.setString(3, cliente.cpf());
                 stmt.setString(4,cliente.tipoCliente());
+                stmt.executeUpdate();
 
-                int linhasAfetadas = stmt.executeUpdate();
+                try (ResultSet key = stmt.getGeneratedKeys()){
+                    if (key.next()){
+                        return new Cliente(
+                            key.getInt(1),
+                            cliente.nome(),
+                            cliente.email(),
+                            cliente.cpf(), 
+                            null,
+                            cliente.tipoCliente());
+                    }
+                }
+                /*
+                int linhasAfetadas = stmt.executeUpdate();                     //Fase 2: deixa de abrir conexão própria
                 if (linhasAfetadas == 0) {
                     throw new SQLException("Falha ao inserir cliente - nenhuma linha afetada.");
-                }
+                }*/
         }
         throw new SQLException("ID não retornado após inserção.");
     }
@@ -96,25 +116,32 @@ public class ClienteRepository {
                 GROUP BY c.id, c.nome
                 ORDER BY valor_total DESC
                 """;
-        try(Connection conn = ConexaoMySQL.obter();
+        try(//Connection conn = ConexaoMySQL.obter();                             //Fase 2: deixa de abrir conexão própria
             PreparedStatement stmt = conn.prepareStatement(sql);
             ResultSet rs = stmt.executeQuery()){
-            
+
+            while (rs.next()){
+                resultado.add(String.format("%-30s | Pedidos: %d | Total: R$ %.2f",
+                        rs.getString("nome"),
+                        rs.getInt("total_pedidos"),
+                        rs.getBigDecimal("valor_total")));
+            }
+            /* 
             while (rs.next()) {
-                String linha = String.format("%-30s | Pedidos: %d | Total: R$ %.2f",
+                String linha = String.format("%-30s | Pedidos: %d | Total: R$ %.2f",     //Fase 2: deixa de abrir conexão própria
                         rs.getString("nome"),
                         rs.getInt("total_pedidos"),
                         rs.getBigDecimal("valor_total"));
                 resultado.add(linha);
-            }
+            } */
         }
         return resultado;
     }
 
 
 
-    // Método Privado: mapeia ResultSet -> Record
-    private Cliente mapearCliente(ResultSet rs) throws SQLException{
+    // Método Privado: mapeia ResultSet -> Record                       
+    private Cliente mapear(ResultSet rs) throws SQLException{                //Fase 2: Mapeando direto
         return new Cliente(
             rs.getInt("id"),
             rs.getString("nome"),

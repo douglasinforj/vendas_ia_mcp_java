@@ -43,7 +43,6 @@ Migrar tudo pra Spring Boot, entendendo agora por que cada anotação existe —
 
 ---
 
-### FASE 1 — Fundação Java Core + MySQL via JDBC puro
 
 
 
