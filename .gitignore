@@ -1,0 +1,63 @@
+############################################
+# Compilação Java
+############################################
+*.class
+*.log
+*.ctxt
+############################################
+# Maven
+############################################
+target/
+!.mvn/wrapper/maven-wrapper.jar
+############################################
+# VS Code
+############################################
+.vscode/
+!.vscode/settings.json
+!.vscode/extensions.json
+!.vscode/launch.json
+!.vscode/tasks.json
+############################################
+# IntelliJ / Eclipse (caso use também)
+############################################
+.idea/
+*.iml
+*.ipr
+*.iws
+.project
+.classpath
+.settings/
+############################################
+# Sistema operacional
+############################################
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+# Mac
+.DS_Store
+############################################
+# Logs e temporários
+############################################
+*.tmp
+*.temp
+*.swp
+*.bak
+*.orig
+############################################
+# Arquivos sensíveis / ambiente
+############################################
+.env
+.env.*
+application-local.properties
+application-dev.properties
+############################################
+# Build / distribuição
+############################################
+*.jar
+*.war
+*.ear
+############################################
+# Testes
+############################################
+coverage/
