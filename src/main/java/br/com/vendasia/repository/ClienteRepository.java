@@ -1,6 +1,6 @@
 package br.com.vendasia.repository;
 
-import br.com.vendasia.infra.ConexaoMySQL;
+//import br.com.vendasia.infra.ConexaoMySQL;
 //import br.com.vendasia.infra.ConexaoMySQL;              //Fase 2: Deixa de criar a conexão
 import br.com.vendasia.model.Cliente;
 
