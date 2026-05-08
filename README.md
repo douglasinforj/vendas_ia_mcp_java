@@ -1,5 +1,7 @@
 # Projeto Vendas IA
 Projeto com Java + MCP + IA (Treinamento) | Utilizando banco de dados do ecommerce já publicado em outro projeto meu para Acesso da IA
+- Link do projeto banco de dados ecommerce 
+[ecommerce-treino1](https://github.com/douglasinforj/ecommerce-treino1)
 
 
 ## Visão Geral do Projeto
