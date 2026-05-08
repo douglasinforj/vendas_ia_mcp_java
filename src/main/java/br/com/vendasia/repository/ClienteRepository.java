@@ -56,6 +56,8 @@ public class ClienteRepository {
         return Optional.empty(); // Nunca retorne null — use Optional
     }
 
+
+    
     //-------------------
     // Inserir Cliente
     //-------------------
