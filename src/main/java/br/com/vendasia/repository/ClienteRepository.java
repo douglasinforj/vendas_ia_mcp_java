@@ -10,7 +10,9 @@ import java.util.Optional;
 
 public class ClienteRepository {
 
+    //------------------------
     //Buscar todos os clientes
+    //------------------------
     public List<Cliente> buscarTodos() throws SQLException {
         List<Cliente> clientes = new ArrayList<>();
 
@@ -31,6 +33,52 @@ public class ClienteRepository {
         }
         return clientes;
     }
+
+    //-------------------
+    // Buscar po ID
+    //-------------------
+    public Optional<Cliente> buscarPorId(int id) throws SQLException {
+        String sql = "select id, nome, email, cpf, data_cadastro, tipo_cliente from clientes where id = ?";
+
+        // O "?" é o parâmetro. PreparedStatement evita SQL Injection.
+        // Nunca faça: "WHERE id = " + id  ← vulnerável!
+        try (Connection conn = ConexaoMySQL.obter();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, id); // 1 = posição do primeiro "?"
+            
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return Optional.of(mapearCliente(rs));  // 'of' cria uma objeto com valor obrigatorio
+                }
+            }
+        }
+        return Optional.empty(); // Nunca retorne null — use Optional
+    }
+
+    //-------------------
+    // Inserir Cliente
+    //-------------------
+    public Cliente inserir(Cliente cliente) throws SQLException {
+        String sql = "insert into clientes (nome, email, cpf, tipo_cliente) value (?,?,?,?)";
+
+        //RETURN_GENERATED_KEYS: recupera o id gerado pelo AUTO_INCREMENT
+        try(Connection conn = ConexaoMySQL.obter();
+            PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+                stmt.setString(1, cliente.nome());
+                stmt.setString(2, cliente.email());
+                stmt.setString(3, cliente.cpf());
+                stmt.setString(4,cliente.tipoCliente());
+
+                int linhasAfetadas = stmt.executeUpdate();
+                if (linhasAfetadas == 0) {
+                    throw new SQLException("Falha ao inserir cliente - nenhuma linha afetada.");
+                }
+        }
+        throw new SQLException("ID não retornado após inserção.");
+    }
+
+
 
 
     // Método Privado: mapeia ResultSet -> Record
