@@ -50,7 +50,13 @@ Model
  - RecomendacaoProduto 
 
 Repository
+ - ClienteRepository (Refatorado)
+ - ProdutoRepository (Refarorado)
  - PedidoRepository
+ - PagamentoRepository
+
+Service
+ - 
 
 
 
