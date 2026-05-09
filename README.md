@@ -24,8 +24,8 @@ Model
  - ItemPedido
 
 Repository
- - ClienteRepository
- - ProdutoRepository
+ - ClienteRepository   (testado Main)
+ - ProdutoRepository   (testado Main)
 
 
 O que foi abordado:
@@ -44,6 +44,10 @@ Quem só sabe Hibernate fica perdido.
 Expandir o domínio de vendas com MySQL. Model → Repository → Service.
 
 Model
+ - Cliente    (fase 1)
+ - Produto    (fase 1)
+ - Pedido     (fase 1)
+ - ItemPedido (fase 1)
  - Pagamento
  - Entrega
  - RastreamentoLog
@@ -52,11 +56,11 @@ Model
 Repository
  - ClienteRepository (Refatorado)
  - ProdutoRepository (Refarorado)
- - PedidoRepository
+ - PedidoRepository  (ItemPedido)
  - PagamentoRepository
 
 Service
- - 
+ - ClienteService  (testado Main)
 
 
 

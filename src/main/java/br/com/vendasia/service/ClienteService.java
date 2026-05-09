@@ -28,4 +28,28 @@ public class ClienteService {
             return new ClienteRepository(conn).buscarPorId(id);
         }
     }
+
+    // Cadastrar Cliente
+    public Cliente cadastrar(Cliente cliente) throws SQLException {
+        
+        //Validações do negócio não é responsabilidade do Repository (Separação de Responsabilidades)
+
+        if (cliente.nome() == null || cliente.nome().isBlank()) {
+            throw new IllegalArgumentException("Nome do cliente é obrigatório");
+        }
+        if (cliente.email() == null || !cliente.email().contains("@"))
+            throw new IllegalArgumentException("E-mail inválido");
+
+        try(Connection conn = ConexaoMySQL.obter()) {
+            return new ClienteRepository(conn).inserir(cliente);
+        }
+    }
+
+    // Clientes com Pedidos
+
+    public List<String> clientesComPedido() throws SQLException {
+        try (Connection conn = ConexaoMySQL.obter()) {
+            return new ClienteRepository(conn).buscarClientesComPedidos();
+        }
+    }
 }
