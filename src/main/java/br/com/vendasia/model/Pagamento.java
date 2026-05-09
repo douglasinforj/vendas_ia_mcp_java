@@ -6,7 +6,7 @@ import java.time.LocalDateTime;
 public record Pagamento(
     Integer id,
     Integer pedidoId,
-    String fromaPagamento,
+    String formaPagamento,
     Integer parcelas,
     BigDecimal valorPago,
     LocalDateTime dataPagamento
