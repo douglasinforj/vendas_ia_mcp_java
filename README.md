@@ -9,8 +9,24 @@ Desenvolvi um banco de dados para treinar e aplicar conhecimentos adquiridos dur
 
 ## Visão Geral do Projeto em 4 fases
 
-#### FASE 1 — Fundação Java Core + MySQL via JDBC puro
+## FASE 1 — Fundação Java Core + MySQL via JDBC puro
+
+### Camadas (Model/Repo)
 Conectar no banco sem nenhum framework. Ver exatamente o que o Hibernate esconde: 
+
+Infra
+ - ConexaoMySQL
+
+Model
+ - Cliente
+ - Produto
+ - Pedido
+ - ItemPedido
+
+Repository
+ - ClienteRepository
+ - ProdutoRepository
+
 
 O que foi abordado:
 
@@ -26,6 +42,18 @@ Quem só sabe Hibernate fica perdido.
 
 #### FASE 2 — Arquitetura em camadas (Model/Repo/Service)
 Expandir o domínio de vendas com MySQL. Model → Repository → Service.
+
+Model
+ - Pagamento
+ - Entrega
+ - RastreamentoLog
+ - RecomendacaoProduto 
+
+Repository
+ - PedidoRepository
+
+
+
 
 #### FASE 3 — MCP Server em Java (tools para o Claude)
 Construir um servidor MCP que expõe as queries do banco como ferramentas chamáveis pelo Claude. Aqui você entende o protocolo por dentro: como o JSON-RPC funciona, como as tools são registradas, como o modelo decide o que chamar.
