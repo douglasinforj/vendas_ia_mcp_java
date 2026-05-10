@@ -79,6 +79,24 @@ public class PedidoRepository {
         }
     }
 
+
+    // Buscar por Status
+    public List<Pedido> buscarPorStatus(String status) throws SQLException {
+        List<Pedido> lista = new ArrayList<>();
+        String sql = """
+                SELECT id, cliente_id, data_pedido, status, valor_total
+                FROM pedidos WHERE status = ? ORDER BY data_pedido DESC
+                """;
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, status);
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) lista.add(mapear(rs));
+            }
+        }
+        return lista;
+    }
+
+
     //busca por Cliente
     public List<Pedido> buscarPorCliente(int clienteId) throws SQLException {
         List<Pedido> lista = new ArrayList<>();
