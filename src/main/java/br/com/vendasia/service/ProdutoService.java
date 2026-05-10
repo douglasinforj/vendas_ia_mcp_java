@@ -34,6 +34,7 @@ public class ProdutoService {
             try (Connection conn = ConexaoMySQL.obter()) {
                 return new ProdutoRepository(conn).buscarPorCategoria(categoria);
             }
+        }
 
         // Cadastrar um produto
         public Produto cadastrar(Produto produto) throws SQLException {
