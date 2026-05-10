@@ -33,6 +33,36 @@ public class ProdutoRepository {
         return produtos;
     }
 
+    // Inserir Produto
+    public Produto inserir(Produto produto) throws SQLException {
+        String sql = """
+                INSERT INTO produtos (nome, sku, preco_custo, preco_venda, estoque_atual, categoria) VALUES (?,?,?,?,?,?)
+                """;
+        
+        try (PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+            stmt.setString(1, produto.nome());
+            stmt.setString(2, produto.sku());
+            stmt.setBigDecimal(3, produto.precoCusto());
+            stmt.setBigDecimal(4, produto.precoVenda());
+            stmt.setInt(5, produto.estoqueAtual());
+            stmt.setString(6, produto.categoria());
+            stmt.executeUpdate();
+
+            try (ResultSet keys = stmt.getGeneratedKeys()) {
+                if (keys.next()) {
+                    return new Produto(keys.getInt(1),
+                            produto.nome(),
+                            produto.sku(),
+                            produto.precoCusto(),
+                            produto.precoVenda(),
+                            produto.estoqueAtual(),
+                            produto.categoria());
+                }
+            }
+        }
+        throw new SQLException("Falha ao recuperar o ID.");
+    }
+
     // Buscar produto por ID
 
     public Optional<Produto> buscarPorId(int id) throws SQLException {

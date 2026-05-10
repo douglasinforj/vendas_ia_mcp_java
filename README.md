@@ -40,6 +40,8 @@ O que foi abordado:
 Porque quando o Hibernate gera um SQL errado em produção, quem sabe JDBC consegue debugar. 
 Quem só sabe Hibernate fica perdido. 
 
+---
+
 #### FASE 2 — Arquitetura em camadas (Model/Repo/Service)
 Expandir o domínio de vendas com MySQL. Model → Repository → Service.
 
@@ -75,6 +77,8 @@ MCP é um protocolo de comunicação — um contrato de como um modelo de IA pod
  - Como o servidor retorna o resultado pro modelo
 
 O transporte é JSON-RPC — mensagens JSON trafegando via stdio ou HTTP/SSE.
+
+---
 
 #### FASE 4 — Spring Boot (migração e modernização)
 Migrar tudo pra Spring Boot, entendendo agora por que cada anotação existe — porque você já fez na mão antes.
