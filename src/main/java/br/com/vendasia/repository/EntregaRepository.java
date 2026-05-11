@@ -94,8 +94,24 @@ public class EntregaRepository {
         return Optional.empty();
     }
 
-
-
+    // Buscar por Status
+    public List<Entrega> buscarPorStatus(String status) throws SQLException {
+        List<Entrega> lista = new ArrayList<>();
+        String sql = """
+                SELECT id, pedido_id, codigo_rastreio, transportadora, data_envio,
+                        data_entrega, status, data_previsao_entrega, observacoes,
+                        ultima_atualizacao, atualizado_por
+                FROM entregas WHERE status = ? ORDER BY data_envio DESC
+                """;
+        
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, status);
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) lista.add(mapear(rs));
+            }
+        }
+        return lista;
+    }
 
 
     // Mapeamento
