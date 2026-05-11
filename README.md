@@ -64,7 +64,8 @@ Repository
 Service
  - ClienteService  (testado Main)
  - ProdutoService  (testado Main)
-
+ - PedidoService   (testado Main)
+ - PagamentoService
 
 
 #### FASE 3 — MCP Server em Java (tools para o Claude)
