@@ -13,7 +13,7 @@ public class PagamentoRepository {
 
     public Pagamento inserir(Pagamento pagamento) throws SQLException {
         String sql = """
-                INSERT INTO pagamentos (pedido_id, forma_pagamento, parcelamento, valor_pago, data_pagamento)
+                INSERT INTO pagamentos (pedido_id, forma_pagamento, parcelas, valor_pago, data_pagamento)
                 VALUES (?,?,?,?, NOW())
                 """;
         try(PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
