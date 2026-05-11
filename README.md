@@ -3,6 +3,7 @@ Projeto com Java + MCP + IA (Treinamento) | Utilizando banco de dados do ecommer
 - Link do projeto banco de dados ecommerce 
 [ecommerce-treino1](https://github.com/douglasinforj/ecommerce-treino1)
 
+[![SafeSkill 50/100](https://img.shields.io/badge/SafeSkill-50%2F100_Use%20with%20Caution-orange)](https://safeskill.dev/scan/douglasinforj-vendas-ia-mcp-java)
 ## Objetivo
 Desenvolvi um banco de dados para treinar e aplicar conhecimentos adquiridos durante minha experiência em e-commerce, focando em novas técnicas de análise de dados para o meu currículo e portfólio. Com o rápido crescimento da IA, as empresas buscam aprendizado contínuo em seus históricos para otimizar atividades; por isso, meu objetivo atual é dominar a tríade MCP + IA + JAVA. Foco em entender a base técnica ('por debaixo dos panos') para evoluir com solidez para ferramentas como Spring.
 
