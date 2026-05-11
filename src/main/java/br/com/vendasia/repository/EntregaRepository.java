@@ -78,6 +78,24 @@ public class EntregaRepository {
         }   
     }
 
+    // Buscar Entraga Por Pedido
+    public Optional<Entrega> buscarPorPedido(int pedidoId) throws SQLException {
+        String sql = """
+                SELECT id, pedido_id, codigo_rastreio, transportadora, data_envio,
+                        data_entrega, status, data_previsao_entrega, observacoes,
+                        ultima_atualizacao, atualizado_por
+                """;
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, pedidoId);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) return Optional.of(mapear(rs));
+            }
+        }
+        return Optional.empty();
+    }
+
+
+
 
 
     // Mapeamento
