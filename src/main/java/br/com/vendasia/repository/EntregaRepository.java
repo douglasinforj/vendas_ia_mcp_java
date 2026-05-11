@@ -64,6 +64,21 @@ public class EntregaRepository {
         throw new SQLException("Falha ao inserir entrega");
     }
 
+    // Atualizar Status
+    public void atualizarStatus(int entregaId, String novoStatus, String atualizadoPor) throws SQLException {
+        String sql = """
+                UPDATE entrega SET status = ?, atualizado_por = ?
+                WHERE id = ?
+                """;
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, novoStatus);
+            stmt.setString(2, atualizadoPor);
+            stmt.setInt(3, entregaId);
+            stmt.executeUpdate();
+        }   
+    }
+
+
 
     // Mapeamento
     private Entrega mapear(ResultSet rs) throws SQLException {
