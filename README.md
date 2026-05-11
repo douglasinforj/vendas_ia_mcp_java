@@ -65,7 +65,7 @@ Service
  - ClienteService  (testado Main)
  - ProdutoService  (testado Main)
  - PedidoService   (testado Main)
- - PagamentoService
+ - PagamentoService (testado Main)
 
 
 #### FASE 3 — MCP Server em Java (tools para o Claude)
