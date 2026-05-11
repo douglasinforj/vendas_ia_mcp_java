@@ -18,11 +18,12 @@ public class PagamentoRepository {
         List<Pagamento> lista = new ArrayList<>();
         String sql = """
                 SELECT id, pedido_id, forma_pagamento, parcelas, valor_pago, data_pagamento
-                FROM pagamentos ORDER BY data_pagamentos DESC
+                FROM pagamentos ORDER BY data_pagamento DESC
                 """;
+
         try (PreparedStatement stmt = conn.prepareStatement(sql);
-        ResultSet rs = stmt.executeQuery()) {
-            while (rs.next()) lista.add(mapear(rs))
+            ResultSet rs = stmt.executeQuery()) {
+            while (rs.next()) lista.add(mapear(rs));
         }
         return lista;
     }
@@ -64,6 +65,7 @@ public class PagamentoRepository {
                 SELECT id, pedido_id, forma_pagamento, parcelas, valor_pago, data_pagamento
                 FROM pagamentos WHERE pedido_id = ?
                 """;
+
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setInt(1, pedidoId);
             try (ResultSet rs = stmt.executeQuery()) {
@@ -72,6 +74,7 @@ public class PagamentoRepository {
         }
         return lista;
     }
+
 
 
     //Mapeamento
