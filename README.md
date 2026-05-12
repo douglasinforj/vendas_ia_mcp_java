@@ -75,7 +75,7 @@ Service
 
 
 #### FASE 3 — MCP Server em Java (tools para o Claude)
-Construir um servidor MCP que expõe as queries do banco como ferramentas chamáveis pelo Claude. Aqui você entende o protocolo por dentro: como o JSON-RPC funciona, como as tools são registradas, como o modelo decide o que chamar.
+Construir um servidor MCP que expõe as queries do banco como ferramentas chamáveis pelo Claude. Tratar como o protocolo por dentro: como o JSON-RPC funciona, como as tools são registradas, como o modelo decide o que chamar.
 
 O que o MCP é, de verdade?
 MCP é um protocolo de comunicação — um contrato de como um modelo de IA pode descobrir e chamar ferramentas externas. Ele define:
@@ -88,7 +88,7 @@ O transporte é JSON-RPC — mensagens JSON trafegando via stdio ou HTTP/SSE.
 ---
 
 #### FASE 4 — Spring Boot (migração e modernização)
-Migrar tudo pra Spring Boot, entendendo agora por que cada anotação existe — porque você já fez na mão antes.
+Migrar tudo pra Spring Boot, com o entendimento do que acontece por debaixo dos panos.
 
 ---
 
