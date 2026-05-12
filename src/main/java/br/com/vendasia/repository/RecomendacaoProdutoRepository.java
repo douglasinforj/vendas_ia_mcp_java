@@ -19,7 +19,7 @@ public class RecomendacaoProdutoRepository {
         List<RecomendacaoProduto> lista = new ArrayList<>();
         
         String sql = """
-                SELECT produto_base_id, produto_recomendado_id, suporte, confianca,
+                SELECT produto_base_id, produto_recomendado_id, suporte, confianca, lift, data_calculo
                 FROM recomendacoes_produto
                 WHERE produto_base_id = ?
                 ORDER BY lift DESC
@@ -62,10 +62,10 @@ public class RecomendacaoProdutoRepository {
     //Mapeamento
     private RecomendacaoProduto mapear(ResultSet rs) throws SQLException {
         return new RecomendacaoProduto(
-            rs.getInt("paroduto_base_id"),
+            rs.getInt("produto_base_id"),
             rs.getInt("produto_recomendado_id"),
             rs.getInt("suporte"),
-            rs.getBigDecimal("conficana"),
+            rs.getBigDecimal("confianca"),
             rs.getBigDecimal("lift"),
             rs.getTimestamp("data_calculo").toLocalDateTime()
         );

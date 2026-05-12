@@ -6,6 +6,7 @@ import br.com.vendasia.service.ProdutoService;
 import br.com.vendasia.service.PedidoService;
 import br.com.vendasia.service.EntregaService;
 import br.com.vendasia.service.RastreamentoLogService;
+import br.com.vendasia.service.RecomendacaoProdutoService;
 
 
 import br.com.vendasia.model.ItemPedido;
@@ -24,6 +25,7 @@ public class Main {
         PagamentoService pagamentoService = new PagamentoService();
         EntregaService entregaService = new EntregaService();
         RastreamentoLogService rastreamentoLogService = new RastreamentoLogService();
+        RecomendacaoProdutoService recomendacaoProdutoService = new RecomendacaoProdutoService();
 
 
         try {
@@ -52,7 +54,7 @@ public class Main {
             // Listar todos os pagamento
             System.out.println("\n=====Pagamentos Registrados======");
             pagamentoService.listarTodos().forEach(p ->
-                System.out.printf("Pedido #%d | %s | %dx | R$ %,2f | %s%n",
+                System.out.printf("Pedido #%d | %s | %dx | R$ %.2f | %s%n",
                     p.pedidoId(),
                     p.formaPagamento(),
                     p.parcelas(),
@@ -99,7 +101,7 @@ public class Main {
                     r.localizacao() != null ? r.localizacao() : "Sem localização",
                     r.dataHora() != null ? r.dataHora() : "Sem data")
             );
-            
+           
             // Histório de uma emprega específica
             System.out.println("\n========HISTÓRIO DA ENTREGA=======");
             rastreamentoLogService.buscarHistorico(1).forEach(r ->
@@ -108,6 +110,20 @@ public class Main {
                     r.status(),
                     r.descricao() != null ? r.descricao() : "sem descrição")
             );
+            //===========Teste Recomendacao ====================
+            // Listar Recomendações
+            recomendacaoProdutoService.buscarRecomendacoes(1).forEach(rec ->
+                System.out.printf(
+                    "Produto Base ID: %d | Produto Recomendado: %d | Suporte: %d | Confiança: %.2f | Lift: %.2f | Data: %s%n",
+                    rec.produtoBaseId(),
+                    rec.produtoRecomendadoId(),
+                    rec.suporte(),
+                    rec.confianca(),
+                    rec.lift(),
+                    rec.dataCalculo()
+                )
+            );
+            
 
 
         } catch(SQLException e){
