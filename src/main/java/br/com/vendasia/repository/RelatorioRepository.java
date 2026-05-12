@@ -88,6 +88,8 @@ public class RelatorioRepository {
                 rs.getBigDecimal("valor")));
     }
 
+    //
+
     
 
     // Helpers funcionais - evitam repetição de try-with-resources
