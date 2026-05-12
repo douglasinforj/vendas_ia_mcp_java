@@ -4,6 +4,7 @@ import br.com.vendasia.service.ClienteService;
 import br.com.vendasia.service.PagamentoService;
 import br.com.vendasia.service.ProdutoService;
 import br.com.vendasia.service.PedidoService;
+import br.com.vendasia.service.EntregaService;
 
 
 import br.com.vendasia.model.ItemPedido;
@@ -20,6 +21,7 @@ public class Main {
         ProdutoService produtoService = new ProdutoService();
         PedidoService pedidoService = new PedidoService();
         PagamentoService pagamentoService = new PagamentoService();
+        EntregaService entregaService = new EntregaService();
 
 
         try {
@@ -63,6 +65,28 @@ public class Main {
                     p.formaPagamento(), p.parcelas(), p.valorPago()
                 )
             );
+
+
+            // ==============Teste Entrega:=============
+            // Listar todas as entregas
+            System.out.println("\n ====ENTREGAS REGISTRADAS====");
+            entregaService.listarTodas().forEach(e ->
+                System.out.printf("Pedido #d  | %s | Status: %s | Precisão: %s%n",
+                    e.pedidoId(),
+                    e.transportadora() != null ? e.transportadora() : "Sem transportadora",
+                    e.status(),
+                    e.dataPrevisaoEntrega() != null ? e.dataPrevisaoEntrega() : "Sem previsão")
+            );
+
+            // Estregas por Status
+            System.out.println("\n=== ENTREGAS PENDENTES ===");
+            entregaService.listarPorStatus("Pendente").forEach(e ->
+                System.out.printf("Pedido #%d | Rastreio: %s | %s%n",
+                    e.pedidoId(),
+                    e.codigoRastreio() != null ? e.codigoRastreio() : "sem rastreio",
+                    e.transportadora())
+            );
+
             
         
         } catch(SQLException e){
