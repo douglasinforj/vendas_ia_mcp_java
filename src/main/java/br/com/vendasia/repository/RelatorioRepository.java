@@ -54,6 +54,24 @@ public class RelatorioRepository {
                         rs.getBigDecimal("receita")));
     }
 
+
+    // Analise Estoque crítico
+    public List<String> estoqueCritico(int minimo) throws SQLException {
+        String sql = """
+                SELECT nome, sku, estoque_atual, categoria
+                FROM produtos
+                WHERE estoque_atual <= ?
+                ORDER BY estoque_atual ASC
+                """;
+        return executar(sql,
+             stmt -> stmt.setInt(1, minimo),
+             rs -> String.format("[%s] %s - %d un. | Cat: %s",
+                rs.getString("sku"),
+                rs.getString("nome"),
+                rs.getInt("estoque_atual"),
+                rs.getString("categoria")));
+    }
+
     
 
     // Helpers funcionais - evitam repetição de try-with-resources
