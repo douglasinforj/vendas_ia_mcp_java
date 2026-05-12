@@ -61,6 +61,7 @@ Repository
  - PedidoRepository  (ItemPedido)
  - PagamentoRepository
  - EntregaRepository
+ - RastreamentoLogRepository
 
 Service
  - ClienteService  (testado Main)
@@ -68,6 +69,7 @@ Service
  - PedidoService   (testado Main)
  - PagamentoService (testado Main)
  - EntregaService (testado Main)
+ - RastreamentoLogService (testado Main)
 
 
 #### FASE 3 — MCP Server em Java (tools para o Claude)
