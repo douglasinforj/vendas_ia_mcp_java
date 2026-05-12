@@ -5,6 +5,7 @@ import br.com.vendasia.service.PagamentoService;
 import br.com.vendasia.service.ProdutoService;
 import br.com.vendasia.service.PedidoService;
 import br.com.vendasia.service.EntregaService;
+import br.com.vendasia.service.RastreamentoLogService;
 
 
 import br.com.vendasia.model.ItemPedido;
@@ -22,6 +23,7 @@ public class Main {
         PedidoService pedidoService = new PedidoService();
         PagamentoService pagamentoService = new PagamentoService();
         EntregaService entregaService = new EntregaService();
+        RastreamentoLogService rastreamentoLogService = new RastreamentoLogService();
 
 
         try {
@@ -87,8 +89,27 @@ public class Main {
                     e.transportadora())
             );
 
+            // =============Teste RastreamentoLog:==============
+            // Listar Todos os logs
+            System.out.println("\n====LOGS DE RASTREAMENTO====");
+            rastreamentoLogService.listarTodos().forEach(r ->
+                System.out.printf("Entrega #%d | Status: %s | Local: %s | %s%n",
+                    r.entregaId(),
+                    r.status(),
+                    r.localizacao() != null ? r.localizacao() : "Sem localização",
+                    r.dataHora() != null ? r.dataHora() : "Sem data")
+            );
             
-        
+            // Histório de uma emprega específica
+            System.out.println("\n========HISTÓRIO DA ENTREGA=======");
+            rastreamentoLogService.buscarHistorico(1).forEach(r ->
+                System.out.printf("[%s] %s - %s%n",
+                    r.dataHora(),
+                    r.status(),
+                    r.descricao() != null ? r.descricao() : "sem descrição")
+            );
+
+
         } catch(SQLException e){
             System.err.println("Erro SQL: " + e.getMessage());
             e.printStackTrace();
