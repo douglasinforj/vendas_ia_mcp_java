@@ -33,6 +33,30 @@ public class RecomendacaoProdutoRepository {
         return lista;
     }
 
+    //Salvar Recomendações
+    public void salvar(RecomendacaoProduto rec) throws SQLException {
+        // Upsert - atualiza se ja existir ou insere se não existir
+        String sql = """
+                INSERT INTO recomendacoes_produto
+                    (produto_base_id, produto_recomendado_id, suporte, conficanca, lift, data_calculo)
+                VALUES (?, ?, ?, ?, ?, NOW())
+                ON DUPLICATE KEY UPDATE
+                    suporte = VALUES(suporte),
+                    confianca = VALUES(confianca),
+                    lift = VALUES(lift),
+                    data_calculo = NOW()
+                """;
+        try(PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, rec.produtoBaseId());
+            stmt.setInt(2, rec.produtoRecomendadoId());
+            stmt.setInt(3, rec.suporte());
+            stmt.setBigDecimal(4, rec.confianca());
+            stmt.setBigDecimal(5, rec.lift());
+            stmt.executeUpdate();
+        }
+
+    }
+
 
 
     //Mapeamento
