@@ -72,6 +72,22 @@ public class RelatorioRepository {
                 rs.getString("categoria")));
     }
 
+    // pedidosPorStatus
+    public List<String> pedidosPorStatus() throws SQLException {
+        String sql = """
+                SELECT status, COUNT(*) AS total, SUM(valor_total) AS valor
+                FROM pedidos
+                GROUP BY status
+                ORDER BY total DESC
+                """;
+        return executar(sql, 
+            stmt -> {}, 
+            rs -> String.format("%-12s | %d pedidos | R$ %.2f", 
+                rs.getString("status"),
+                rs.getInt("total"),
+                rs.getBigDecimal("valor")));
+    }
+
     
 
     // Helpers funcionais - evitam repetição de try-with-resources
