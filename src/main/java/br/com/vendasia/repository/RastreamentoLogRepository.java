@@ -27,6 +27,7 @@ public class RastreamentoLogRepository {
             ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) lista.add(mapear(rs));
             }
+            return lista;
     }
 
     // Inserir Rastreamento
