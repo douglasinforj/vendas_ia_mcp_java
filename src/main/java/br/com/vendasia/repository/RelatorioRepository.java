@@ -88,7 +88,29 @@ public class RelatorioRepository {
                 rs.getBigDecimal("valor")));
     }
 
-    //
+    // Ticket médio por Cliente  Máximo 10
+    public List<String> ticketMedioPorCliente() throws SQLException {
+        String sql = """
+                SELECT c.nome,
+                       COUNT(p.id) AS pedidos,
+                       AVG(p.valor_total) AS ticket_medio,
+                       SUM(p.valor_total) AS total_gasto
+                FROM clientes c
+                JOIN pedidos p ON p.cliente_id = c.id
+                WHERE p.status != 'Cancelado'
+                GROUP BY c.id, c.nome
+                ORDER BY ticket_medio DESC
+                LIMIT 10
+                """;
+
+        return executar(sql,
+            stmt -> {},
+            rs -> String.format("%-30s | %d pedidos | Ticket: R$ %.2f | Total: R$ %.2f",
+                rs.getString("nome"),
+                rs.getInt("pedidos"),
+                rs.getBigDecimal("ticket_medio"),
+                rs.getBigDecimal("total_gasto")));
+    }
 
     
 
