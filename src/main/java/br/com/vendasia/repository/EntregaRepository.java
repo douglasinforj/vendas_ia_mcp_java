@@ -132,7 +132,7 @@ public class EntregaRepository {
             rs.getTimestamp("ultima_atualizacao") != null
                 ? rs.getTimestamp("ultima_atualizacao").toLocalDateTime() : null,
             rs.getString("atualizado_por")
-        )
+        );
     }
     
 
