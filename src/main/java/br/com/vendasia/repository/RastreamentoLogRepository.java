@@ -52,6 +52,23 @@ public class RastreamentoLogRepository {
         throw new SQLException("Falha ao inserir log de rastreamento.");   
     }
 
+    // Buscar rastreamento por entrega
+    public List<RastreamentoLog> buscarPorEntrega(int entregaId) throws SQLException {
+        List<RastreamentoLog> lista = new ArrayList<>();
+        String sql = """
+                SELECT id, entrega_id, status, localizacao, data_hora, descricao
+                FROM rastreamento_log
+                WHERE entrega_id = ? ORDER BY data_hora DESC
+                """;
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, entregaId);
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) lista.add(mapear(rs));
+            }
+        }
+        return lista;
+    }
+
     private RastreamentoLog mapear(ResultSet rs) throws SQLException {
         return new RastreamentoLog(
             rs.getInt("id"),
