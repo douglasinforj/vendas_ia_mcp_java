@@ -6,8 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import javax.naming.spi.DirStateFactory.Result;
-
 
 public class EntregaRepository {
 
@@ -22,9 +20,9 @@ public class EntregaRepository {
         List<Entrega> lista = new ArrayList<>();
         String sql = """
                 SELECT id, pedido_id, codigo_rastreio, transportadora, data_envio,
-                        data_entrega, status, data_precisao_entrega, observacoes,
+                        data_entrega, status, data_previsao_entrega, observacoes,
                         ultima_atualizacao, atualizado_por
-                FROM entrgas ORDER BY data_envio DESC
+                FROM entregas ORDER BY data_envio DESC
                 """;
 
         try (PreparedStatement stmt = conn.prepareStatement(sql);
