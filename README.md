@@ -63,6 +63,7 @@ Repository
  - EntregaRepository
  - RastreamentoLogRepository
  - RecomendacaoProdutoRepository
+ - RelatorioRepository
 
 Service
  - ClienteService  (testado Main)
@@ -72,6 +73,7 @@ Service
  - EntregaService (testado Main)
  - RastreamentoLogService (testado Main)
  - RecomendacaoProdutoService (testado Main)
+ - RelatorioService (testado Main)
 
 
 #### FASE 3 — MCP Server em Java (tools para o Claude)
