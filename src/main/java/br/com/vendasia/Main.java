@@ -7,6 +7,7 @@ import br.com.vendasia.service.PedidoService;
 import br.com.vendasia.service.EntregaService;
 import br.com.vendasia.service.RastreamentoLogService;
 import br.com.vendasia.service.RecomendacaoProdutoService;
+import br.com.vendasia.service.RelatorioService;
 
 
 import br.com.vendasia.model.ItemPedido;
@@ -26,9 +27,11 @@ public class Main {
         EntregaService entregaService = new EntregaService();
         RastreamentoLogService rastreamentoLogService = new RastreamentoLogService();
         RecomendacaoProdutoService recomendacaoProdutoService = new RecomendacaoProdutoService();
+        RelatorioService relatorioService = new RelatorioService();
 
 
         try {
+        
             // ==============Teste Cliente: ===============
             // Listar clientes
             System.out.println("\n====Clientes====");
@@ -123,6 +126,30 @@ public class Main {
                     rec.dataCalculo()
                 )
             );
+
+            //===========Teste Relatorios========================
+            // Top 5 produtos mais vendidos
+            System.out.println("\n==== TOP 5 PRODUTOS MAIS VENDIDOS=====");
+            relatorioService.topProdutos(5).forEach(System.out::println);
+
+            
+            // Receita por período
+            System.out.println("\n====RECEITA (2024-01-01 a 2024-12-31)===");
+            relatorioService.receitaPorPeriodo("2024-01-01", "2024-12-31")
+                .forEach(System.out::println);
+        
+            // Estoque crítico
+            System.out.println("\n=== ESTOQUE CRÍTICO (< 10 unidades)====");
+            relatorioService.estoqueCritico(10).forEach(System.out::println);
+
+            // Pedidos por status
+            System.out.println("\n====PEDIDOS POR STATUS====");
+            relatorioService.pedidosPorStatus().forEach(System.out::println);
+
+            // Ticket médio por cliente
+            System.out.println("\n=== TICKET MÉDIO POR CLIENTE===");
+            relatorioService.ticketMedioPorCliente().forEach(System.out::println);
+
             
 
 

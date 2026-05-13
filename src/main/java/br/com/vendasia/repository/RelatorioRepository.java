@@ -22,7 +22,7 @@ public class RelatorioRepository {
                 JOIN pedidos ped ON ped.id = ip.pedido_id
                 WHERE ped.status IN ('Pago', 'Enviado', 'Entregue')
                 GROUP BY p.id, p.nome, p.categoria
-                ORDER BY total_vendidos DESC
+                ORDER BY total_vendido DESC
                 LIMIT ?
                 """;
         return executar(sql, 
@@ -35,7 +35,7 @@ public class RelatorioRepository {
     }
 
     // Receita por período
-    public List<String> receitaPorPedido(String dataInicio, String dataFim) throws SQLException {
+    public List<String> receitaPorPeriodo(String dataInicio, String dataFim) throws SQLException {
         String sql = """
                 SELECT DATE(data_pedido) as dia,
                        COUNT(*) AS pedidos,
