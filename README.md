@@ -84,8 +84,13 @@ MCP é um protocolo de comunicação — um contrato de como um modelo de IA pod
  - Como o servidor anuncia quais ferramentas tem disponíveis
  - Como o modelo solicita a execução de uma ferramenta
  - Como o servidor retorna o resultado pro modelo
-
 O transporte é JSON-RPC — mensagens JSON trafegando via stdio ou HTTP/SSE.
+
+Dependências
+- MCP SDK para Java
+- Jackson - serialização Json das Tools
+Plugin
+- shade-plugin
 
 ---
 
