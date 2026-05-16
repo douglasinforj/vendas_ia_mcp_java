@@ -86,11 +86,18 @@ MCP é um protocolo de comunicação — um contrato de como um modelo de IA pod
  - Como o servidor retorna o resultado pro modelo
 O transporte é JSON-RPC — mensagens JSON trafegando via stdio ou HTTP/SSE.
 
+[Referências Doc](https://java.sdk.modelcontextprotocol.io/latest/quickstart/#dependencies) 
+
 Dependências
-- MCP SDK para Java
-- Jackson - serialização Json das Tools
-Plugin
-- shade-plugin
+- pom  (Dependencias e pugins necessários)
+
+
+MCP/Tools
+
+ - BaseTool
+   O schema agora é uma String JSON pura passada direto no construtor do Tool — mais simples, sem objeto depreciado, e exatamente o que o protocolo MCP espera por baixo dos panos de qualquer forma. O BaseTool ficou mais limpo também, sem o método schema()
+   
+ - TopProdutoTool
 
 ---
 
