@@ -95,7 +95,7 @@ Dependências
 MCP/Tools
 
  - BaseTool
-   O schema agora é uma String JSON pura passada direto no construtor do Tool — mais simples, sem objeto depreciado, e exatamente o que o protocolo MCP espera por baixo dos panos de qualquer forma. O BaseTool ficou mais limpo também, sem o método schema()
+   - O schema agora é uma String JSON pura passada direto no construtor do Tool — mais simples, sem objeto depreciado, e exatamente o que o protocolo MCP espera por baixo dos panos de qualquer forma. O BaseTool ficou mais limpo também, sem o método schema()
    
  - TopProdutoTool
  - ReceitaPorPedidoTool
@@ -107,7 +107,7 @@ MCP/Tools
 
  Resources
  - logback.xml
-   O protocolo MCP usa stdout para JSON-RPC — qualquer coisa no stdout quebra a comunicação.
+    - O protocolo MCP usa stdout para JSON-RPC — qualquer coisa no stdout quebra a comunicação.
    Isso Acontece porque o Claude espera apenas JSON puro no STDIO, mas seu servidor está enviando texto (logs) antes ou junto com as mensagens JSON ou seja: poluição no stdout.
    
 
