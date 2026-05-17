@@ -105,8 +105,8 @@ MCP/Tools
  - VendasMcpServer
  - McpMain
 
- Resources
- - logback.xml
+ - Resources
+  - logback.xml
     - O protocolo MCP usa stdout para JSON-RPC — qualquer coisa no stdout quebra a comunicação.
    Isso Acontece porque o Claude espera apenas JSON puro no STDIO, mas seu servidor está enviando texto (logs) antes ou junto com as mensagens JSON ou seja: poluição no stdout.
    
