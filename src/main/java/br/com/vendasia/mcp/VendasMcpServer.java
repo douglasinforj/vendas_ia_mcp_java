@@ -1,12 +1,13 @@
 package br.com.vendasia.mcp;
 
-import br.com.vendasia.mcp.tools.*;           // ajuste o pacote se necessário
+import br.com.vendasia.mcp.tools.*;
 import br.com.vendasia.service.RelatorioService;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+// REMOVER imports de Jackson e JacksonMcpJsonMapper
+//import tools.jackson.databind.ObjectMapper;                          // Jackson 3
+import io.modelcontextprotocol.json.jackson3.JacksonMcpJsonMapper;   // Jackson 3
+import tools.jackson.databind.json.JsonMapper;
 
-// Import corrigido:
-import io.modelcontextprotocol.json.jackson2.JacksonMcpJsonMapper;
 
 import io.modelcontextprotocol.server.McpServer;
 import io.modelcontextprotocol.server.McpSyncServer;
@@ -17,8 +18,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class VendasMcpServer {
-    private static final Logger log = LoggerFactory.getLogger(VendasMcpServer.class);
 
+    private static final Logger log = LoggerFactory.getLogger(VendasMcpServer.class);
     private final RelatorioService relatorio;
 
     public VendasMcpServer() {
@@ -29,20 +30,20 @@ public class VendasMcpServer {
         try {
             log.info("Configurando transporte STDIO...");
 
-            // Correção aqui
-            JacksonMcpJsonMapper jsonMapper = new JacksonMcpJsonMapper(new ObjectMapper());
+            // Sem parâmetro — usa o mapper interno do SDK (Jackson 3 nativo)
+            JacksonMcpJsonMapper jsonMapper = new JacksonMcpJsonMapper(JsonMapper.builder().build());
+            StdioServerTransportProvider transport = new StdioServerTransportProvider(jsonMapper);
 
-            StdioServerTransportProvider transport = 
-                new StdioServerTransportProvider(jsonMapper);
+            log.info("Inicializando ferramentas de vendas...");
 
-            log.info("Inicializando tools...");
-            TopProdutosTool topProdutos = new TopProdutosTool(relatorio);
-            ReceitaPorPeriodoTool receitaPorPeriodo = new ReceitaPorPeriodoTool(relatorio);
-            EstoqueCriticoTool estoqueCritico = new EstoqueCriticoTool(relatorio);
-            PedidosPorStatusTool pedidosPorStatus = new PedidosPorStatusTool(relatorio);
-            TicketMedioTool ticketMedio = new TicketMedioTool(relatorio);
+            TopProdutosTool topProdutos         = new TopProdutosTool(relatorio);
+            ReceitaPorPeriodoTool receitaPeriodo = new ReceitaPorPeriodoTool(relatorio);
+            EstoqueCriticoTool estoqueCritico    = new EstoqueCriticoTool(relatorio);
+            PedidosPorStatusTool pedidosStatus   = new PedidosPorStatusTool(relatorio);
+            TicketMedioTool ticketMedio          = new TicketMedioTool(relatorio);
 
-            log.info("Registrando MCP Server...");
+            log.info("📋 Registrando 5 ferramentas no MCP Server...");
+
             return McpServer.sync(transport)
                 .serverInfo("vendas-ia", "1.0.0")
                 .capabilities(McpSchema.ServerCapabilities.builder()
@@ -50,16 +51,16 @@ public class VendasMcpServer {
                     .build())
                 .tools(
                     topProdutos.especificacao(),
-                    receitaPorPeriodo.especificacao(),
+                    receitaPeriodo.especificacao(),
                     estoqueCritico.especificacao(),
-                    pedidosPorStatus.especificacao(),
+                    pedidosStatus.especificacao(),
                     ticketMedio.especificacao()
                 )
                 .build();
 
         } catch (Exception e) {
-            log.error("Erro ao construir MCP Server.", e);
-            throw new RuntimeException("Falha ao iniciar servidor MCP.", e);
+            log.error("Erro crítico ao construir o MCP Server", e);
+            throw new RuntimeException("Falha ao iniciar servidor MCP", e);
         }
     }
 }

@@ -7,7 +7,9 @@ import java.sql.SQLException;
 
 public class ConexaoMySQL {
 
-    private static final Dotenv ENV = Dotenv.load();
+    private static final Dotenv ENV = Dotenv.configure()
+            .ignoreIfMissing()
+            .load();
 
     public static Connection obter() throws SQLException {
         String url = ENV.get("DB_URL");
@@ -16,5 +18,4 @@ public class ConexaoMySQL {
 
         return DriverManager.getConnection(url, user, pass);
     }
-
 }
