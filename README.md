@@ -92,23 +92,48 @@ Dependências
 - pom  (Dependencias e pugins necessários)
 
 
-MCP/Tools
+## Camada MCP
 
- - BaseTool
-   - O schema agora é uma String JSON pura passada direto no construtor do Tool — mais simples, sem objeto depreciado, e exatamente o que o protocolo MCP espera por baixo dos panos de qualquer forma. O BaseTool ficou mais limpo também, sem o método schema()
-   
- - TopProdutoTool
- - ReceitaPorPedidoTool
- - EstoqueCriticoTool
- - PedidosPorStatusTool
- - TicketMedioTool
- - VendasMcpServer
- - McpMain
+### `mcp/tools/`
 
- - Resources
-  - logback.xml
-    - O protocolo MCP usa stdout para JSON-RPC — qualquer coisa no stdout quebra a comunicação.
-   Isso Acontece porque o Claude espera apenas JSON puro no STDIO, mas seu servidor está enviando texto (logs) antes ou junto com as mensagens JSON ou seja: poluição no stdout.
+| Classe | Responsabilidade |
+|---|---|
+| `BaseTool` | Classe abstrata base para todas as tools. Define contratos comuns: `especificacao()`, `schemaVazio()`, `schema()`, `sucessoResult()`, `erroResult()`, `getIntArgument()` |
+| `TopProdutosTool` | Retorna os produtos mais vendidos em quantidade |
+| `ReceitaPorPeriodoTool` | Retorna receita de vendas agrupada por dia em um período |
+| `EstoqueCriticoTool` | Retorna produtos com estoque abaixo do mínimo informado |
+| `PedidosPorStatusTool` | Retorna pedidos agrupados por status com totais |
+| `TicketMedioTool` | Retorna top 10 clientes com maior ticket médio de compra |
+
+> **Sobre o schema das tools:** o `inputSchema` é uma `String JSON` pura passada diretamente no construtor do `Tool` — mais simples, sem o objeto `McpSchema.JsonSchema` (depreciado na versão 1.1.0), e exatamente o que o protocolo MCP espera por baixo dos panos.
+
+---
+
+### `mcp/`
+
+| Classe | Responsabilidade |
+|---|---|
+| `VendasMcpServer` | Monta e configura o servidor MCP: registra o transport STDIO, instancia as tools e expõe as capabilities ao Claude Desktop |
+| `McpMain` | Entrypoint do servidor MCP. Inicializa o `VendasMcpServer` e mantém o processo vivo aguardando conexões via STDIO |
+
+---
+
+## Resources
+
+### `logback.xml`
+
+Configuração de logging crítica para o funcionamento do MCP.
+
+**Por que isso importa:**
+O protocolo MCP usa `stdout` exclusivamente para trafegar mensagens JSON-RPC entre o Claude Desktop e o servidor. Qualquer texto não-JSON no `stdout` — inclusive logs — quebra a comunicação, pois o Claude tenta parsear tudo como JSON e falha.
+
+| Configuração | Valor | Motivo |
+|---|---|---|
+| `ConsoleAppender target` | `System.err` | Logs nunca vão pro `stdout` |
+| `root level` | `WARN` | Silencia bibliotecas externas (Jackson, MCP core) |
+| `logger br.com.vendasia` | `INFO` | Sua aplicação loga normalmente |
+| `RollingFileAppender` | `logs/vendas-mcp.log` | Histórico persistido em arquivo |
+| `NopStatusListener` | — | Suprime mensagens internas do Logback no `stdout` durante inicialização |
    
 
 ---
