@@ -19,3 +19,16 @@ usar abstrações de framework.
 ---
 
 ## Arquitetura geral
+
+`
+Usuário (linguagem natural)
+│
+▼
+Claude Desktop / Cliente Python (Django)
+│  JSON-RPC via stdio
+▼
+MCP Server — Java puro
+│  JDBC
+▼
+MySQL
+`
