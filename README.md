@@ -59,3 +59,41 @@ Conectar no banco sem nenhum framework. Ver exatamente o que o Hibernate esconde
 > Quando o Hibernate gera um SQL errado em produção, quem sabe JDBC consegue debugar.
 > Quem só sabe Hibernate pode ficar perdido, é algo que na minha carreira dou bastante atenção.
 
+---
+
+### ✅ FASE 2 — Arquitetura em camadas (Model → Repository → Service)
+
+Expansão do domínio com arquitetura profissional, transações atômicas e queries analíticas.
+
+**Models**
+
+| Classe | Descrição |
+|---|---|
+| `Cliente` | Dados cadastrais PF/PJ |
+| `Produto` | SKU, preços, estoque, categoria |
+| `Pedido` | Cabeçalho do pedido com status |
+| `ItemPedido` | Granularidade do pedido com preço histórico |
+| `Pagamento` | Forma, parcelas e valor pago |
+| `Entrega` | Rastreio, transportadora, previsão e status |
+| `RastreamentoLog` | Log detalhado de movimentação da entrega |
+| `RecomendacaoProduto` | Market basket analysis: suporte, confiança e lift |
+
+**Repositories**
+
+`ClienteRepository` · `ProdutoRepository` · `PedidoRepository` · `PagamentoRepository`
+`EntregaRepository` · `RastreamentoLogRepository` · `RecomendacaoProdutoRepository` · `RelatorioRepository`
+
+**Services**
+
+`ClienteService` · `ProdutoService` · `PedidoService` · `PagamentoService`
+`EntregaService` · `RastreamentoLogService` · `RecomendacaoProdutoService` · `RelatorioService`
+
+**Conceitos abordados**
+
+- Separação de responsabilidades: Repository só persiste, Service orquestra e valida
+- Transação atômica manual com `commit` / `rollback` e conexão compartilhada entre repositories
+- Queries analíticas com `JOIN`, `GROUP BY`, `SUM`, `AVG`, `COUNT`
+- `Optional<T>` para evitar `NullPointerException`
+- Java Records para models imutáveis
+
+---
