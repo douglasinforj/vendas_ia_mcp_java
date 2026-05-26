@@ -32,3 +32,30 @@ MCP Server — Java puro
 ▼
 MySQL
 ```
+
+### ✅ FASE 1 — Java Core + JDBC puro
+
+Conectar no banco sem nenhum framework. Ver exatamente o que o Hibernate esconde.
+
+**O que foi implementado**
+
+| Camada | Classes |
+|---|---|
+| Infra | `ConexaoMySQL` |
+| Model | `Cliente`, `Produto`, `Pedido`, `ItemPedido` |
+| Repository | `ClienteRepository`, `ProdutoRepository` |
+
+**Conceitos abordados**
+
+| Conceito | O que é | Por que importa |
+|---|---|---|
+| `DriverManager` | Gerenciador de drivers JDBC | Ponto de entrada para qualquer conexão |
+| `Connection` | Representa a conexão com o banco | Recurso caro — precisa ser fechado |
+| `PreparedStatement` | SQL parametrizado | Segurança contra SQL Injection |
+| `ResultSet` | Cursor sobre as linhas retornadas | Como se itera os dados |
+| `try-with-resources` | Fechamento automático de recursos | Evita memory/connection leak |
+
+> **Por que eu foquei no JDBC antes de JPA?**
+> Quando o Hibernate gera um SQL errado em produção, quem sabe JDBC consegue debugar.
+> Quem só sabe Hibernate pode ficar perdido, é algo que na minha carreira dou bastante atenção.
+
