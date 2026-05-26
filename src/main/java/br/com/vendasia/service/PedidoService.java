@@ -34,7 +34,7 @@ public class PedidoService {
         Connection conn = ConexaoMySQL.obter();
         try {
             // ── Inicia transação ──────────────────────────
-            conn.setAutoCommit(false);    //informa que deve esperar, pois teremos mais ações
+            conn.setAutoCommit(false);
 
             // Repositorios compartilham a mesma conexão
             ProdutoRepository produtoRepo   = new ProdutoRepository(conn);
@@ -97,11 +97,30 @@ public class PedidoService {
             // ── ROLLBACK: algo falhou, desfaz tudo ───────────
             System.err.println("Erro ao registrar pedido — rollback executado.");
             conn.rollback();
-            throw e;                   // relança pra quem chamou tratar ou logar
+            throw e;
 
         } finally {
             conn.setAutoCommit(true);
             conn.close();
+        }
+    }
+
+    /**
+     * Lista todos os pedidos de um cliente específico.
+     * Método utilizado pelo PerfilClienteTool para exibir histórico de compras.
+     *
+     * @param clienteId ID do cliente
+     * @return Lista de pedidos do cliente ordenados por data (mais recentes primeiro)
+     * @throws SQLException se ocorrer erro no banco de dados
+     */
+    public List<Pedido> listarPorCliente(int clienteId) throws SQLException {
+        if (clienteId <= 0) {
+            throw new IllegalArgumentException("ID do cliente deve ser maior que zero.");
+        }
+
+        try (Connection conn = ConexaoMySQL.obter()) {
+            PedidoRepository pedidoRepo = new PedidoRepository(conn);
+            return pedidoRepo.buscarPorCliente(clienteId);
         }
     }
 }
