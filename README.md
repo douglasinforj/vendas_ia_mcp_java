@@ -20,7 +20,7 @@ usar abstrações de framework.
 
 ## Arquitetura geral
 
-`
+```
 Usuário (linguagem natural)
 │
 ▼
@@ -31,4 +31,4 @@ MCP Server — Java puro
 │  JDBC
 ▼
 MySQL
-`
+```
