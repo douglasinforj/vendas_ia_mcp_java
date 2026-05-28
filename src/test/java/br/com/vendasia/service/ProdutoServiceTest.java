@@ -162,6 +162,20 @@ public class ProdutoServiceTest {
         );
     }
 
+    // ---VALIDAÇÕES DO BUSCAR POR CATEGORIA
+
+    @Test
+    @DisplayName("Deve lançar exceção quando Categoria for nula")
+    void deveLancarExcecaoCategoriaNula() {
+        assertThrows(IllegalArgumentException.class, 
+            () -> produtoService.buscarPorCategoria(null));
+    }
+
+    @Test
+    @DisplayName("Deve lançar exceção quando categoria for vazia")
+
+
+
 
 
 }
