@@ -8,6 +8,8 @@ import java.sql.SQLException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.math.BigDecimal;
@@ -56,5 +58,57 @@ public class ProdutoRepositoryTest {
         assertNotNull(inserido.id());  //verifica se não é nulo
         assertTrue(inserido.id() > 0);  //Verifica se é verdadeiro
         assertEquals("Produto test JUnit", inserido.nome()); //valor esperado x recebido
+    }
+
+    @Test
+    @DisplayName("Deve inserir produto sem preço de custo")
+    void deveInserirProdutoSemPrecoCusto() throws SQLException {
+        Produto novo = new Produto(
+            null,
+            "Produto Sem Custo",
+            "SKU-SC" + System.currentTimeMillis(),
+            null,
+            new BigDecimal("150.00"),
+            10,
+            "Teste");
+
+        Produto inserido = produtoRepository.inserir(novo);
+
+        assertNotNull(inserido.id());
+        assertNull(inserido.precoCusto());
+    }
+
+    @Test
+    @DisplayName("Deve lançar exceção ao inserir SKU duplicado")
+    void deveLancarExcecaoSkuDuplicado() throws SQLException {
+
+        String skuFixo = "SKU-DUP-" + System.currentTimeMillis();
+
+        Produto primeiro = new Produto(
+            null, 
+            "Primeiro Produto",
+            skuFixo,
+            new BigDecimal("150"),
+            new BigDecimal("250"),
+            8,
+            "Teste"
+        );
+
+        Produto segundo = new Produto(
+            null,
+            "Segundo Produto",
+            skuFixo, 
+            new BigDecimal("150"), 
+            new BigDecimal("250"),
+            8,
+            "Teste"
+        );
+
+        produtoRepository.inserir(primeiro);
+
+        assertThrows(SQLException.class,
+            () -> produtoRepository.inserir(segundo)
+        );
+
     }
 }
