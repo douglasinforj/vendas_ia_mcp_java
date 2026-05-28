@@ -43,7 +43,7 @@ public class ProdutoService {
             if (produto.sku() == null || produto.sku().isBlank())
                 throw new IllegalArgumentException("SKU é obrigatório.");
             if (produto.precoVenda() == null || produto.precoVenda().signum() <=0 )
-                throw new IllegalArgumentException("Preço de venda de ser maior que zero.");
+                throw new IllegalArgumentException("Preço de venda deve ser maior que zero.");
 
             try (Connection conn = ConexaoMySQL.obter()) {
                 return new ProdutoRepository(conn).inserir(produto);
