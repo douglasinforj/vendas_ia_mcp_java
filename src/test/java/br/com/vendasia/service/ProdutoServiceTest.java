@@ -173,6 +173,30 @@ public class ProdutoServiceTest {
 
     @Test
     @DisplayName("Deve lançar exceção quando categoria for vazia")
+    void deveLancarExcecaoCatefgoriaVazia() {
+        assertThrows(IllegalArgumentException.class,
+            () -> produtoService.buscarPorCategoria("   ")
+        );
+    }
+
+    // --- VALIDAÇÕES DO TOP MAIS VENDIDOS-----
+
+    @Test
+    @DisplayName("Deve lançar exceção quando limite for zero")
+    void deveLancarExcecaoLimiteZero() {
+        assertThrows(IllegalArgumentException.class, 
+            () -> produtoService.topMaisVendidos(0));
+    }
+
+    @Test
+    @DisplayName("Deve lançar exceção quando limite for negativo")
+    void deveLancarExcecaoLimiteNegativo() {
+        assertThrows(IllegalArgumentException.class,
+            () -> produtoService.topMaisVendidos(-3)
+        );
+    }
+
+
 
 
 
