@@ -36,7 +36,7 @@ public class ClienteRepositoryTest {
     @AfterEach
     void teardown() throws SQLException {
         connection.rollback();          // desfaz tudo que o teste fez
-        connection.setAutoCommit(false);
+        connection.setAutoCommit(true);
         connection.close();
     }
 
