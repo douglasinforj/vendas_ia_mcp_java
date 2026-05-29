@@ -238,6 +238,34 @@ public class ProdutoRepositoryTest {
         
             assertTrue(encontrado);
     }
+
+
+    // --MAPEAMENTO
+
+    @Test
+    @DisplayName("Deve mapear todos os campos do produto corretamente")
+    void deveMappearCamposCorretamente() throws SQLException {
+        Produto novo = new Produto(null, "Mapeamento Produto",
+            "SKU-MAP-" + System.currentTimeMillis(),
+            new BigDecimal("75.50"),
+            new BigDecimal("150.99"),
+            30, "Eletrônicos");
+
+        Produto inserido = produtoRepository.inserir(novo);
+        Optional<Produto> encontrado = produtoRepository.buscarPorId(inserido.id());
+
+        assertTrue(encontrado.isPresent());
+
+        Produto p = encontrado.get();
+        assertEquals("Mapeamento Produto", p.nome());
+        assertEquals("Eletrônicos", p.categoria());
+        assertEquals(30, p.estoqueAtual());
+        assertEquals(0, new BigDecimal("75.50").compareTo(p.precoCusto()));
+        assertEquals(0, new BigDecimal("150.99").compareTo(p.precoVenda()));
+
+
+
+    }
     
 
 
