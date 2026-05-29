@@ -212,6 +212,32 @@ public class ProdutoRepositoryTest {
             () -> produtoRepository.atualizarEstoque(999999, 10)
         );
     }
+
+
+    //---ESTOQUE CRÍTICO----------------
+
+    @Test
+    @DisplayName("Deve incluir produto com estoque abaixo do mínimo.")
+    void deveIncluirProdutoComEstoqueCritico() throws SQLException {
+        Produto critico = new Produto(
+            null,
+            "Produto Crítico",
+            "SKU-CRT-" + System.currentTimeMillis(),
+            new BigDecimal("50"),
+            new BigDecimal("100"),
+            2,
+            "Teste"
+        );
+
+        produtoRepository.inserir(critico);
+
+        List<Produto> resultado = produtoRepository.buscarEstoqueCritico(5);
+
+        boolean encontrado = resultado.stream()
+            .anyMatch(p -> p.estoqueAtual() <= 5);
+        
+            assertTrue(encontrado);
+    }
     
 
 
