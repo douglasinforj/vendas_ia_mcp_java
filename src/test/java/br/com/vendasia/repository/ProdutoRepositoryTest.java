@@ -179,6 +179,39 @@ public class ProdutoRepositoryTest {
 
         assertTrue(resultado.isEmpty());
     }
+
+    //---ATUALIZAR ESTOQUE
+
+    @Test
+    @DisplayName("Deve atualizar estoque do produto corretamente")
+    void deveAtualizarEstoque() throws SQLException {
+        Produto novo = new Produto(
+            null,
+            "Produto Estoque",
+            "SKU-EST-" + System.currentTimeMillis(),
+            new BigDecimal("50"),
+            new BigDecimal("100"),
+            10,
+            "Teste"
+        );
+
+        Produto inserido = produtoRepository.inserir(novo);
+
+        produtoRepository.atualizarEstoque(inserido.id(), 25);
+
+        Optional<Produto> atualizado = produtoRepository.buscarPorId(inserido.id());
+
+        assertTrue(atualizado.isPresent());
+        assertEquals(25, atualizado.get().estoqueAtual());
+    }
+
+    @Test
+    @DisplayName("Deve lançar exceção ao atualizar estoque de ID inexistente")
+    void devoLancarExcecaoEstoqueIdInexistente() {
+        assertThrows(SQLException.class,
+            () -> produtoRepository.atualizarEstoque(999999, 10)
+        );
+    }
     
 
 
