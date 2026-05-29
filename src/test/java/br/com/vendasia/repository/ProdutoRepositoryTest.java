@@ -5,6 +5,7 @@ import br.com.vendasia.model.Produto;
 import br.com.vendasia.infra.ConexaoMySQL;
 
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -143,6 +144,41 @@ public class ProdutoRepositoryTest {
         assertFalse(resultado.isPresent());
     }
 
+    //---BUSCAR POR CATEGORIA----------
+
+    @Test
+    @DisplayName("Deve retornar produtos da categoria informada")
+    void deveRetornarProdutosPorCategoria() throws SQLException {
+
+        String categoriaUnica = "CatTeste-" + System.currentTimeMillis();
+
+        Produto novo = new Produto(
+            null,
+            "Produto Categoria",
+            "SKU-CAT-" + System.currentTimeMillis(),
+            new BigDecimal("50"),
+            new BigDecimal("100"),
+            5,
+            categoriaUnica
+        );
+
+        produtoRepository.inserir(novo);
+
+        List<Produto> resultado = produtoRepository.buscarPorCategoria(categoriaUnica);
+
+        assertFalse(resultado.isEmpty());
+        assertTrue(resultado.stream()
+            .allMatch(p -> p.categoria().equals(categoriaUnica)));
+
+    }
+
+    @Test
+    @DisplayName("Deve retornar lista vazia para categoria inexistente")
+    void deveRetornarVazioCategoriaNaoExistente() throws SQLException {
+        List<Produto> resultado = produtoRepository.buscarPorCategoria("CategoriaQueNaoExiste999");
+
+        assertTrue(resultado.isEmpty());
+    }
     
 
 
