@@ -5,8 +5,10 @@ import br.com.vendasia.model.Produto;
 import br.com.vendasia.infra.ConexaoMySQL;
 
 import java.sql.SQLException;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -109,6 +111,40 @@ public class ProdutoRepositoryTest {
         assertThrows(SQLException.class,
             () -> produtoRepository.inserir(segundo)
         );
-
     }
+
+
+    // --- BUSCAR POR ID---------
+
+    @Test
+    @DisplayName("Deve buscar produto pelo ID após inserção")
+    void deveBuscarProdutoPorId() throws SQLException {
+        Produto novo = new Produto(
+            null,
+            "Buscar ID",
+            "SKU-BID-" + System.currentTimeMillis(),
+            new BigDecimal("80"),
+            new BigDecimal("160"),
+            20, "Teste"
+        );
+
+        Produto inserido = produtoRepository.inserir(novo);
+        Optional<Produto> encontrado = produtoRepository.buscarPorId(inserido.id());
+
+        assertTrue(encontrado.isPresent());
+        assertEquals("Buscar ID", encontrado.get().nome());
+    }
+
+    @Test
+    @DisplayName("Deve retornar Optional vazio para ID inexistente")
+    void deveRetornarVazioInexistente() throws SQLException {
+        Optional<Produto> resultado = produtoRepository.buscarPorId(999999);
+
+        assertFalse(resultado.isPresent());
+    }
+
+    
+
+
+
 }
