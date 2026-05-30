@@ -39,7 +39,7 @@ Usuário (linguagem natural)
 
 ---
 
-### ✅ FASE 1 — Java Core + JDBC puro
+### FASE 1 — Java Core + JDBC puro
 
 Conectar no banco sem nenhum framework. Ver exatamente o que o Hibernate esconde.
 
@@ -67,7 +67,7 @@ Conectar no banco sem nenhum framework. Ver exatamente o que o Hibernate esconde
 
 ---
 
-### ✅ FASE 2 — Arquitetura em camadas (Model → Repository → Service)
+### FASE 2 — Arquitetura em camadas (Model → Repository → Service)
 
 Expansão do domínio com arquitetura profissional, transações atômicas e queries analíticas.
 
@@ -176,12 +176,12 @@ quebra a comunicação.
 
 **Integrações validadas**
 
-- ✅ Claude Desktop (Windows) — 10 tools reconhecidas e chamadas via linguagem natural
-- ✅ Cliente Python (`mcp_client.py`) — handshake MCP + chamada de tools via `subprocess`
+- Claude Desktop (Windows) — 10 tools reconhecidas e chamadas via linguagem natural
+- Cliente Python (`mcp_client.py`) — handshake MCP + chamada de tools via `subprocess`
 
 ---
 
-### ✅ Testes — JUnit 5 + Mockito
+### Testes — JUnit 5 + Mockito
 
 Testes organizados em duas categorias com padrões distintos.
 
@@ -261,7 +261,7 @@ Relatório gerado em `target/site/surefire-report.html`.
 
 ---
 
-### 🔜 FASE 4 — Spring Boot (próxima etapa)
+### FASE 4 — Spring Boot (próxima etapa)
 
 Migração para Spring Boot com compreensão do que cada abstração substitui.
 
