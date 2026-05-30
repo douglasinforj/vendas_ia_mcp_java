@@ -16,6 +16,8 @@ as empresas buscam profissionais que entendam como conectar sistemas legados a m
 linguagem — por isso o foco na tríade MCP + IA + Java, construindo tudo do zero antes de
 usar abstrações de framework.
 
+![](imagens_readme/java_mcp_ia_readme.png)
+
 ---
 
 ## Arquitetura geral
