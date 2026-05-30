@@ -104,7 +104,7 @@ Expansão do domínio com arquitetura profissional, transações atômicas e que
 
 ---
 
-### ✅ FASE 3 — MCP Server em Java
+### FASE 3 — MCP Server em Java
 
 Servidor MCP expondo ferramentas do banco de dados ao Claude via protocolo JSON-RPC 2.0.
 
